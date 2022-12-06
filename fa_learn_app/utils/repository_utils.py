@@ -17,3 +17,11 @@ def convert_product_in_to_storage(product :ProductIn) -> ProductStorage:
                                      created_at = datetime.datetime.now(),
                                      **tmp_dict)
     return product_storage
+
+def update_product_in_to_storage(old_id :uuid.UUID, update_product :ProductIn) -> ProductStorage:
+
+    tmp_dict :dict = update_product.dict()
+    product_storage = ProductStorage(id = old_id,
+                                    create_at = datetime.datetime.now(),
+                                    **tmp_dict)
+    return product_storage
