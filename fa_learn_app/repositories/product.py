@@ -15,7 +15,7 @@ class BaseProductRepository:
     def create(self, product :ProductIn) ->ProductOut:
         raise NotImplementedError
 
-    def update(self, id : uuid.UUID, product :ProductIn) -> ProductOut:
+    def updateproduct(self, id : uuid.UUID, product :ProductIn) -> ProductOut:
         raise NotImplementedError
 
     def delete(self, id :uuid.UUID) -> ProductOut:
@@ -54,22 +54,23 @@ class ProductTmpRepository(BaseProductRepository):
         product_out: ProductOut = convert_product_storage_to_out(product_storage)
         return product_out
 
-    def update(self, id :uuid.UUID, new_product :ProductIn) -> Optional[ProductOut]:
-        #Обновление продукта
+    def updateproduct(self, id: uuid.UUID, product_new: ProductIn) -> Optional[ProductOut]:
+        # Получение продукта по идентификатору для обновления/изменения данных
 
-        product :ProductStorage = self._dict_products.get(id)
-        if product is None:
-            return None
-        uptdate_product :ProductOut = update_product_in_to_storage(id, new_product)
-        self._dict_products.update({uptdate_product.id: uptdate_product})
-        product_out: ProductOut = convert_product_storage_to_out(uptdate_product)
+        product_old: ProductStorage = self._dict_products.get(id)
+        if product_old is None:
+            return "Данный продукт не найден"
+
+        product_update: ProductOut = update_product_in_to_storage(id, product_new)
+        self._dict_products.update({product_update.id: product_update})
+        product_out: ProductOut = convert_product_storage_to_out(product_update)
         return product_out
 
-    def delete(self, id :uuid.UUID) -> str:
-        #Удаление объекта по id
+    def delete(self, id: uuid.UUID) -> str:
+        # Удаление объекта по идентификатору
 
-        product :ProductStorage = self._dict_products.get(id, None)
+        product: ProductStorage = self._dict_products.get(id)
         if product is None:
-            return None
-        self._dict_products.pop({id, None})
-        return f"Продукт с идентификатором: {id} удалён"
+            return "Данный продукт не найден"
+        self._dict_products.pop(id, None)
+        return "Продукт успешно удален"

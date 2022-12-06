@@ -30,19 +30,21 @@ async def create_product(
     ):
     return product_repo.create(product_in)
 
-@router.put("/product", response_model = ProductOut)
+@router.put("/product", response_model=ProductOut | str)
 async def update_product(
-    id :uuid.UUID,
-    product_in: ProductIn,
-    product_repo :BaseProductRepository = Depends(get_product_repo),
-    ):
-    return product_repo.update(id, product_in)
+        id: uuid.UUID,
+        product_in: ProductIn,
+        product_repo: BaseProductRepository = Depends(get_product_repo),
+        ):
 
-@router.delete("/product", response_model = str)
+    return product_repo.updateproduct(id, product_in)
+
+@router.delete("/product", response_model=str)
 async def delete_product(
-    id :uuid.UUID,
-    product_repo :BaseProductRepository = Depends(get_product_repo),
-    ):
+        id: uuid.UUID,
+        product_repo: BaseProductRepository = Depends(get_product_repo),
+        ):
+
     return product_repo.delete(id)
 
 """@router.put("/product", response_model = ProductOut)

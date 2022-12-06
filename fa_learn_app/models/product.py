@@ -13,13 +13,13 @@ class BaseProduct(BaseModel):
 class ProductIn(BaseProduct):
     # Класс описывает продукт, отправленный от пользователя
 
-    secret_Token :str
+    secret_token :str
 
 class ProductOut(BaseProduct):
     # Класс описывает продукт, который отправляется пользователю (без секретной информации)
 
     id :uuid.UUID
-    creared_at :datetime.datetime
+    created_at :datetime.datetime
 
 class ProductStorage(BaseProduct):
     # Класс описывает хранение продукта в хранилище
